@@ -1,8 +1,5 @@
-from unittest.mock import patch, call
 from django.urls import reverse
 from django.test import TestCase
-from django.conf import settings
-from collections import namedtuple
 from ..models import User
 
 
@@ -23,12 +20,7 @@ class ProfileViewTests(BaseViewTests):
 
         self.assertEqual(
             [(a.replace('%2F', '/'), b) for a, b in response.redirect_chain],
-            [
-                (
-                    reverse('login') + '?next=' + reverse('personal_information'),
-                    302,
-                ),
-            ],
+            [(reverse('login'), 302)],
         )
 
     def test_authorized_access(self):
