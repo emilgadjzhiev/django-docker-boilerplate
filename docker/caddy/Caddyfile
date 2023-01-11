@@ -1,4 +1,3 @@
-
 {$SITE_DOMAIN}:443 {
 	reverse_proxy /flower/* flower:5555
 	reverse_proxy /* django:8000
