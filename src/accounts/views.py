@@ -1,17 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.conf import settings
-from django.http import JsonResponse, HttpResponseForbidden, HttpResponse
-from django.utils.translation import gettext as _
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.urls import reverse, reverse_lazy
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-from django.utils import timezone
-from datetime import timedelta
-from django.db.models import Q
-from .models import User
+from django.urls import reverse
 from .forms import EditUserForm
 
 
@@ -46,7 +37,6 @@ def login_view(request, template_name='accounts/login.html'):
     from .forms import UserAuthForm
 
     redirect_to = request.POST.get('next', request.GET.get('next', ''))
-    do_redirect = False
 
     if request.user.is_authenticated:
         if redirect_to == request.path:
@@ -63,7 +53,7 @@ def login_view(request, template_name='accounts/login.html'):
     context = {
         'form': form,
     }
-    return render(request, 'accounts/login.html', context)
+    return render(request, template_name, context)
 
 
 def register(request, template_name='accounts/register.html'):
@@ -83,7 +73,7 @@ def register(request, template_name='accounts/register.html'):
     context = {
         'form': form,
     }
-    return render(request, 'accounts/register.html', context)
+    return render(request, template_name, context)
 
 
 def logout_view(request):
